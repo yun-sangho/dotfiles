@@ -1,0 +1,45 @@
+# Font setup for icons and readability
+font-family = "JetBrainsMono Nerd Font Mono"
+font-family = "Noto Sans CJK KR"
+font-size = 15
+font-thicken = true
+
+# Theme
+theme = Catppuccin Mocha
+
+# Window
+window-padding-x = 12
+window-padding-y = 10
+window-decoration = true
+macos-titlebar-style = tabs
+
+# Background (반투명 + 블러)
+background-opacity = 0.9
+background-blur-radius = 20
+
+# Autosuggestion color (가독성을 위해 밝게)
+palette = 8=#7f849c
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Mouse
+mouse-hide-while-typing = true
+
+# Clipboard
+copy-on-select = true
+clipboard-paste-protection = false
+
+# Scrollback
+scrollback-limit = 10000
+
+# macOS
+macos-option-as-alt = true
+
+# Shell Integration
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
+# tmux
+term = xterm-256color
