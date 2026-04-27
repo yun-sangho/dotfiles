@@ -10,6 +10,7 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/) an
 ├── nvim/.config/nvim/          → ~/.config/nvim
 ├── tmux/.tmux.conf             → ~/.tmux.conf
 ├── zsh/.zshrc                  → ~/.zshrc
+├── karabiner/.config/karabiner/karabiner.json  → ~/.config/karabiner/karabiner.json
 ├── homebrew/.Brewfile          → list of installed brew packages
 └── setup.sh                    → bootstrap script for a new machine
 ```

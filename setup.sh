@@ -19,7 +19,7 @@ brew bundle --file="$DOTFILES/homebrew/.Brewfile"
 
 echo "==> Stowing configs..."
 cd "$DOTFILES"
-for pkg in ghostty nvim tmux zsh; do
+for pkg in ghostty nvim tmux zsh karabiner; do
   echo "  -> $pkg"
   stow --restow --target="$HOME" "$pkg"
 done
