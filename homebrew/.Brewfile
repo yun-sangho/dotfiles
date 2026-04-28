@@ -24,8 +24,9 @@ brew "tree-sitter-cli"
 brew "coderabbitai/tap/git-gtr"
 # Event-driven display sleep on lid close, even when sleep is blocked
 brew "yun-sangho/tap/lidwatch"
+# Cross-shell prompt for astronauts
+brew "starship"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-noto-sans-cjk-kr"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-uv "ade-dedrm"

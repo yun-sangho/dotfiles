@@ -19,3 +19,5 @@ alias gwl="git gtr list"
 alias gwr="git gtr rm"
 alias gwoc="git gtr new --ai"
 alias vim="nvim"
+
+eval "$(starship init zsh)"
