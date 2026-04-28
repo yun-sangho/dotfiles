@@ -22,6 +22,8 @@ brew "tmux"
 brew "tree-sitter-cli"
 # Git worktree manager with editor and AI tool integration
 brew "coderabbitai/tap/git-gtr"
+# Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files
+brew "yun-sangho/tap/dedrm"
 # Event-driven display sleep on lid close, even when sleep is blocked
 brew "yun-sangho/tap/lidwatch"
 # Cross-shell prompt for astronauts
