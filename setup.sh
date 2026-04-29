@@ -3,7 +3,7 @@ set -euo pipefail
 
 DOTFILES="$HOME/.dotfiles"
 
-"$DOTFILES/setup-brew.sh"
-"$DOTFILES/setup-stow.sh"
+"$DOTFILES/setup-package.sh"
+"$DOTFILES/setup-config.sh"
 
 echo "==> Done."
