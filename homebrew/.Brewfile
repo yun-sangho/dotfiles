@@ -6,6 +6,8 @@ brew "fd"
 brew "fzf"
 # GitHub command-line tool
 brew "gh"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Incremental parsing library
