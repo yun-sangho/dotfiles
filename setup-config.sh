@@ -102,7 +102,15 @@ stow_pkg() {
 
 echo "==> Stowing configs..."
 cd "$DOTFILES"
-for pkg in ghostty nvim tmux zsh karabiner starship; do
+for pkg in ghostty nvim tmux zsh starship; do
   echo "  -> $pkg"
   stow_pkg "$pkg"
 done
+
+# Karabiner-Elements rewrites karabiner.json with an atomic rename on every GUI
+# save, which replaces a file-level symlink with a real file and silently breaks
+# stow's tracking. It also auto-creates assets/ and automatic_backups/ inside
+# ~/.config/karabiner, which prevents stow from folding the directory. Bypass
+# stow and link the directory itself so the rename stays inside the linked dir.
+echo "  -> karabiner (direct symlink)"
+ln -sfn "$DOTFILES/karabiner/.config/karabiner" "$HOME/.config/karabiner"
