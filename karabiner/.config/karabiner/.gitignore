@@ -1,2 +1,3 @@
-assets/
-automatic_backups/
+*
+!.gitignore
+!karabiner.json

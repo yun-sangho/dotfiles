@@ -107,10 +107,25 @@ for pkg in ghostty nvim tmux zsh starship; do
   stow_pkg "$pkg"
 done
 
-# Karabiner-Elements rewrites karabiner.json with an atomic rename on every GUI
-# save, which replaces a file-level symlink with a real file and silently breaks
-# stow's tracking. It also auto-creates assets/ and automatic_backups/ inside
-# ~/.config/karabiner, which prevents stow from folding the directory. Bypass
-# stow and link the directory itself so the rename stays inside the linked dir.
+# Link ~/.config/karabiner so Karabiner-Elements' atomic-rename saves of
+# karabiner.json stay inside the linked dir. If a real directory is in the
+# way, back up the user's karabiner.json (ours takes its place) and migrate
+# everything else into the dotfiles dir so it stays accessible at the same
+# path via the new symlink.
 echo "  -> karabiner (direct symlink)"
-ln -sfn "$DOTFILES/karabiner/.config/karabiner" "$HOME/.config/karabiner"
+src="$DOTFILES/karabiner/.config/karabiner"
+dst="$HOME/.config/karabiner"
+mkdir -p "$HOME/.config"
+
+if [ -d "$dst" ] && [ ! -L "$dst" ]; then
+  if [ -L "$dst/karabiner.json" ]; then
+    rm "$dst/karabiner.json"
+  elif [ -f "$dst/karabiner.json" ]; then
+    backup_one karabiner .config/karabiner/karabiner.json
+  fi
+  rsync -ac "$dst/" "$src/"
+  rm -rf "$dst"
+fi
+
+ln -sfn "$src" "$dst"
+unset src dst
