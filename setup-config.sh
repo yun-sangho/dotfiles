@@ -123,10 +123,8 @@ if [ -d "$dst" ] && [ ! -L "$dst" ]; then
   elif [ -f "$dst/karabiner.json" ]; then
     backup_one karabiner .config/karabiner/karabiner.json
   fi
-  shopt -s dotglob nullglob
-  for item in "$dst"/*; do mv "$item" "$src/"; done
-  shopt -u dotglob nullglob
-  rmdir "$dst"
+  rsync -ac "$dst/" "$src/"
+  rm -rf "$dst"
 fi
 
 ln -sfn "$src" "$dst"
