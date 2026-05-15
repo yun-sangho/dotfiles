@@ -113,4 +113,28 @@ done
 # ~/.config/karabiner, which prevents stow from folding the directory. Bypass
 # stow and link the directory itself so the rename stays inside the linked dir.
 echo "  -> karabiner (direct symlink)"
-ln -sfn "$DOTFILES/karabiner/.config/karabiner" "$HOME/.config/karabiner"
+karabiner_src="$DOTFILES/karabiner/.config/karabiner"
+karabiner_dst="$HOME/.config/karabiner"
+mkdir -p "$HOME/.config"
+
+# Clean up symlink misplaced inside the target dir by a prior broken run.
+if [ -L "$karabiner_dst/karabiner" ] && [ "$(readlink "$karabiner_dst/karabiner")" = "$karabiner_src" ]; then
+  rm "$karabiner_dst/karabiner"
+fi
+
+if [ -L "$karabiner_dst" ]; then
+  ln -sfn "$karabiner_src" "$karabiner_dst"
+elif [ -d "$karabiner_dst" ]; then
+  echo "  ! ~/.config/karabiner is a real directory; ln would place the link inside it."
+  printf "  Move it to %s and link? [y/N] " "${BACKUP_DIR/#$HOME/~}"
+  read -r ans </dev/tty
+  if [[ "$ans" =~ ^[Yy]$ ]]; then
+    backup_one "karabiner" ".config/karabiner"
+    ln -s "$karabiner_src" "$karabiner_dst"
+  else
+    echo "  Skipping karabiner."
+  fi
+else
+  ln -s "$karabiner_src" "$karabiner_dst"
+fi
+unset karabiner_src karabiner_dst
