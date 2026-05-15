@@ -107,18 +107,27 @@ for pkg in ghostty nvim tmux zsh starship; do
   stow_pkg "$pkg"
 done
 
-# Link only karabiner.json so Karabiner's auto-generated assets/ and
-# automatic_backups/ (and anything else in ~/.config/karabiner) stay put.
-echo "  -> karabiner (karabiner.json symlink)"
-src="$DOTFILES/karabiner/.config/karabiner/karabiner.json"
-dst="$HOME/.config/karabiner/karabiner.json"
+# Link ~/.config/karabiner so Karabiner-Elements' atomic-rename saves of
+# karabiner.json stay inside the linked dir. If a real directory is in the
+# way, back up the user's karabiner.json (ours takes its place) and migrate
+# everything else into the dotfiles dir so it stays accessible at the same
+# path via the new symlink.
+echo "  -> karabiner (direct symlink)"
+src="$DOTFILES/karabiner/.config/karabiner"
+dst="$HOME/.config/karabiner"
+mkdir -p "$HOME/.config"
 
-# Undo a prior run that linked the whole directory.
-[ -L "$HOME/.config/karabiner" ] && rm "$HOME/.config/karabiner"
-mkdir -p "$HOME/.config/karabiner"
-
-# Back up an existing real karabiner.json before overwriting.
-[ -f "$dst" ] && [ ! -L "$dst" ] && backup_one karabiner .config/karabiner/karabiner.json
+if [ -d "$dst" ] && [ ! -L "$dst" ]; then
+  if [ -L "$dst/karabiner.json" ]; then
+    rm "$dst/karabiner.json"
+  elif [ -f "$dst/karabiner.json" ]; then
+    backup_one karabiner .config/karabiner/karabiner.json
+  fi
+  shopt -s dotglob nullglob
+  for item in "$dst"/*; do mv "$item" "$src/"; done
+  shopt -u dotglob nullglob
+  rmdir "$dst"
+fi
 
 ln -sfn "$src" "$dst"
 unset src dst
