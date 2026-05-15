@@ -107,19 +107,18 @@ for pkg in ghostty nvim tmux zsh starship; do
   stow_pkg "$pkg"
 done
 
-# Karabiner-Elements rewrites karabiner.json via atomic rename, which would
-# replace a file-level symlink with a real file. Link the whole directory so
-# writes land inside the linked dir; this also sidesteps the auto-generated
-# assets/ and automatic_backups/ that prevent stow from folding the tree.
-echo "  -> karabiner (direct symlink)"
-src="$DOTFILES/karabiner/.config/karabiner"
-dst="$HOME/.config/karabiner"
-mkdir -p "$HOME/.config"
+# Link only karabiner.json so Karabiner's auto-generated assets/ and
+# automatic_backups/ (and anything else in ~/.config/karabiner) stay put.
+echo "  -> karabiner (karabiner.json symlink)"
+src="$DOTFILES/karabiner/.config/karabiner/karabiner.json"
+dst="$HOME/.config/karabiner/karabiner.json"
 
-# Heal a nested symlink from a prior broken run, then move any real dir
-# out of the way -- ln -sfn would place the link inside it, not replace it.
-[ -L "$dst/karabiner" ] && [ "$(readlink "$dst/karabiner")" = "$src" ] && rm "$dst/karabiner"
-[ -d "$dst" ] && [ ! -L "$dst" ] && backup_one karabiner .config/karabiner
+# Undo a prior run that linked the whole directory.
+[ -L "$HOME/.config/karabiner" ] && rm "$HOME/.config/karabiner"
+mkdir -p "$HOME/.config/karabiner"
+
+# Back up an existing real karabiner.json before overwriting.
+[ -f "$dst" ] && [ ! -L "$dst" ] && backup_one karabiner .config/karabiner/karabiner.json
 
 ln -sfn "$src" "$dst"
 unset src dst
