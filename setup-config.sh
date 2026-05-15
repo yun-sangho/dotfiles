@@ -107,34 +107,19 @@ for pkg in ghostty nvim tmux zsh starship; do
   stow_pkg "$pkg"
 done
 
-# Karabiner-Elements rewrites karabiner.json with an atomic rename on every GUI
-# save, which replaces a file-level symlink with a real file and silently breaks
-# stow's tracking. It also auto-creates assets/ and automatic_backups/ inside
-# ~/.config/karabiner, which prevents stow from folding the directory. Bypass
-# stow and link the directory itself so the rename stays inside the linked dir.
+# Karabiner-Elements rewrites karabiner.json via atomic rename, which would
+# replace a file-level symlink with a real file. Link the whole directory so
+# writes land inside the linked dir; this also sidesteps the auto-generated
+# assets/ and automatic_backups/ that prevent stow from folding the tree.
 echo "  -> karabiner (direct symlink)"
-karabiner_src="$DOTFILES/karabiner/.config/karabiner"
-karabiner_dst="$HOME/.config/karabiner"
+src="$DOTFILES/karabiner/.config/karabiner"
+dst="$HOME/.config/karabiner"
 mkdir -p "$HOME/.config"
 
-# Clean up symlink misplaced inside the target dir by a prior broken run.
-if [ -L "$karabiner_dst/karabiner" ] && [ "$(readlink "$karabiner_dst/karabiner")" = "$karabiner_src" ]; then
-  rm "$karabiner_dst/karabiner"
-fi
+# Heal a nested symlink from a prior broken run, then move any real dir
+# out of the way -- ln -sfn would place the link inside it, not replace it.
+[ -L "$dst/karabiner" ] && [ "$(readlink "$dst/karabiner")" = "$src" ] && rm "$dst/karabiner"
+[ -d "$dst" ] && [ ! -L "$dst" ] && backup_one karabiner .config/karabiner
 
-if [ -L "$karabiner_dst" ]; then
-  ln -sfn "$karabiner_src" "$karabiner_dst"
-elif [ -d "$karabiner_dst" ]; then
-  echo "  ! ~/.config/karabiner is a real directory; ln would place the link inside it."
-  printf "  Move it to %s and link? [y/N] " "${BACKUP_DIR/#$HOME/~}"
-  read -r ans </dev/tty
-  if [[ "$ans" =~ ^[Yy]$ ]]; then
-    backup_one "karabiner" ".config/karabiner"
-    ln -s "$karabiner_src" "$karabiner_dst"
-  else
-    echo "  Skipping karabiner."
-  fi
-else
-  ln -s "$karabiner_src" "$karabiner_dst"
-fi
-unset karabiner_src karabiner_dst
+ln -sfn "$src" "$dst"
+unset src dst
