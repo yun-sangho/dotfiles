@@ -14,6 +14,10 @@
                                             "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "input_sources": [{ "language": "^ko$" }],
+                                        "type": "input_source_if"
                                     }
                                 ],
                                 "from": {
@@ -34,6 +38,10 @@
                                             "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "input_sources": [{ "language": "^ko$" }],
+                                        "type": "input_source_if"
                                     }
                                 ],
                                 "from": {
