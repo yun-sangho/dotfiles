@@ -31,6 +31,8 @@ brew "jetbrains/utils/kotlin-lsp"
 brew "go"
 # Fast linters runner for Go
 brew "golangci-lint"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
 # Git worktree manager with editor and AI tool integration
 brew "coderabbitai/tap/git-gtr"
 # Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files
