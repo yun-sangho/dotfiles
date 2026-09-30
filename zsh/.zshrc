@@ -17,6 +17,10 @@ export NVM_DIR="$HOME/.nvm"
 export JAVA_HOME="/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home"
 export PATH="$JAVA_HOME/bin:$PATH"
 
+# go
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+
 # opencode
 export PATH=/Users/sangho/.opencode/bin:$PATH
 

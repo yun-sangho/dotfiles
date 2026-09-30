@@ -27,6 +27,10 @@ brew "tree-sitter-cli"
 brew "openjdk@25"
 # Official Language Server Protocol for the Kotlin language
 brew "jetbrains/utils/kotlin-lsp"
+# Go programming language
+brew "go"
+# Fast linters runner for Go
+brew "golangci-lint"
 # Git worktree manager with editor and AI tool integration
 brew "coderabbitai/tap/git-gtr"
 # Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files
