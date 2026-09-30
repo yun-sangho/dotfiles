@@ -23,6 +23,8 @@ git clone https://github.com/<user>/dotfiles ~/.dotfiles
 cd ~/.dotfiles && bash setup.sh
 ```
 
+`setup.sh` also installs JDK 25 (`openjdk@25`) and the JetBrains Kotlin LSP, and asks for `sudo` once to link the JDK into `/Library/Java/JavaVirtualMachines`.
+
 ## Daily use
 
 - Edit configs at their normal paths (`~/.zshrc`, `~/.config/nvim/...`) — the symlinks point back into `~/.dotfiles`, so edits are tracked automatically.

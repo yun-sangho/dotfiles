@@ -1,4 +1,5 @@
 tap "coderabbitai/tap"
+tap "jetbrains/utils"
 tap "yun-sangho/tap"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
@@ -22,6 +23,10 @@ brew "stow"
 brew "tmux"
 # Parser generator tool
 brew "tree-sitter-cli"
+# Development kit for the Java programming language (LTS 25)
+brew "openjdk@25"
+# Official Language Server Protocol for the Kotlin language
+brew "jetbrains/utils/kotlin-lsp"
 # Git worktree manager with editor and AI tool integration
 brew "coderabbitai/tap/git-gtr"
 # Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files
