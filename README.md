@@ -39,3 +39,4 @@ cd ~/.dotfiles && bash setup.sh
   cd ~/.dotfiles && stow <pkg>
   ```
 - Remove symlinks for a package: `cd ~/.dotfiles && stow -D <pkg>`
+
