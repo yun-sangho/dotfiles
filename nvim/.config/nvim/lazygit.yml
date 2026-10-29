@@ -1,0 +1,6 @@
+git:
+  diffRenderers:
+    - name: split
+      command: delta --{{colorScheme}} --paging=never --side-by-side
+    - name: unified
+      command: delta --{{colorScheme}} --paging=never

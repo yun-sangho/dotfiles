@@ -7,6 +7,8 @@ brew "fd"
 brew "fzf"
 # GitHub command-line tool
 brew "gh"
+# Syntax-highlighting pager for git diffs
+brew "git-delta"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Simple terminal UI for git commands
