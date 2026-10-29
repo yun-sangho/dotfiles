@@ -31,3 +31,4 @@ alias gwoc="git gtr new --ai"
 alias vim="nvim"
 
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
