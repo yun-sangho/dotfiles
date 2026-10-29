@@ -25,6 +25,9 @@ cd ~/.dotfiles && bash setup.sh
 
 `setup.sh` also installs nvm and Node.js LTS, JDK 25 (`openjdk@25`), the JetBrains Kotlin LSP, and Go with `golangci-lint`, and asks for `sudo` once to link the JDK into `/Library/Java/JavaVirtualMachines`.
 
+`setup-config.sh` also installs TPM and the plugins declared in your tmux config.
+Existing plugins are kept. To run just this step, use `bash ~/.dotfiles/setup-tmux.sh`.
+
 ## Daily use
 
 - Edit configs at their normal paths (`~/.zshrc`, `~/.config/nvim/...`) — the symlinks point back into `~/.dotfiles`, so edits are tracked automatically.

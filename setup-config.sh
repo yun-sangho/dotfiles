@@ -107,6 +107,8 @@ for pkg in ghostty nvim tmux zsh starship; do
   stow_pkg "$pkg"
 done
 
+bash "$DOTFILES/setup-tmux.sh"
+
 # Link ~/.config/karabiner so Karabiner-Elements' atomic-rename saves of
 # karabiner.json stay inside the linked dir. If a real directory is in the
 # way, back up the user's karabiner.json (ours takes its place) and migrate
