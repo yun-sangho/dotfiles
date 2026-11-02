@@ -19,3 +19,12 @@ tmux -L "$SETUP_SERVER" -f /dev/null new-session -d -s setup
 export TMUX="$(tmux -L "$SETUP_SERVER" display-message -p '#{socket_path}'),0,0"
 tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins/"
 "$TPM_DIR/bin/install_plugins"
+
+# Start a tmux server at login so tmux-continuum restores saved sessions.
+echo "==> Installing tmux server LaunchAgent..."
+PLIST_NAME="local.tmux.server.plist"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+mkdir -p "$HOME/Library/LaunchAgents"
+cp "$DOTFILES_DIR/tmux/$PLIST_NAME" "$HOME/Library/LaunchAgents/$PLIST_NAME"
+launchctl bootout "gui/$(id -u)/local.tmux.server" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/$PLIST_NAME"
