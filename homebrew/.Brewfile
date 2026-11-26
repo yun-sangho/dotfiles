@@ -11,6 +11,8 @@ brew "gh"
 brew "git-delta"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
+# Load per-project environment variables
+brew "direnv"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Incremental parsing library
@@ -37,6 +39,8 @@ brew "golangci-lint"
 brew "uv"
 # Git worktree manager with editor and AI tool integration
 brew "coderabbitai/tap/git-gtr"
+# Manage Git worktrees and agent sessions
+brew "yun-sangho/tap/hwt"
 # Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files
 brew "yun-sangho/tap/dedrm"
 # Event-driven display sleep on lid close, even when sleep is blocked

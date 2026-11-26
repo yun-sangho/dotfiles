@@ -64,9 +64,10 @@ backup_one() {
 
 stow_pkg() {
   local pkg="$1"
+  shift
   local dry
-  if dry=$(stow --no --restow --target="$HOME" "$pkg" 2>&1); then
-    stow --restow --target="$HOME" "$pkg"
+  if dry=$(stow --no --restow --target="$HOME" "$@" "$pkg" 2>&1); then
+    stow --restow --target="$HOME" "$@" "$pkg"
     return
   fi
 
@@ -97,37 +98,60 @@ stow_pkg() {
     backup_one "$pkg" "$f"
   done <<<"$conflicts"
 
-  stow --restow --target="$HOME" "$pkg"
+  stow --restow --target="$HOME" "$@" "$pkg"
 }
-
-echo "==> Stowing configs..."
-cd "$DOTFILES"
-for pkg in ghostty nvim tmux zsh starship; do
-  echo "  -> $pkg"
-  stow_pkg "$pkg"
-done
-
-bash "$DOTFILES/setup-tmux.sh"
 
 # Link ~/.config/karabiner so Karabiner-Elements' atomic-rename saves of
 # karabiner.json stay inside the linked dir. If a real directory is in the
 # way, back up the user's karabiner.json (ours takes its place) and migrate
 # everything else into the dotfiles dir so it stays accessible at the same
 # path via the new symlink.
-echo "  -> karabiner (direct symlink)"
-src="$DOTFILES/karabiner/.config/karabiner"
-dst="$HOME/.config/karabiner"
-mkdir -p "$HOME/.config"
+setup_karabiner() {
+  local src="$DOTFILES/karabiner/.config/karabiner"
+  local dst="$HOME/.config/karabiner"
+  mkdir -p "$HOME/.config"
 
-if [ -d "$dst" ] && [ ! -L "$dst" ]; then
-  if [ -L "$dst/karabiner.json" ]; then
-    rm "$dst/karabiner.json"
-  elif [ -f "$dst/karabiner.json" ]; then
-    backup_one karabiner .config/karabiner/karabiner.json
+  if [ -d "$dst" ] && [ ! -L "$dst" ]; then
+    if [ -L "$dst/karabiner.json" ]; then
+      rm "$dst/karabiner.json"
+    elif [ -f "$dst/karabiner.json" ]; then
+      backup_one karabiner .config/karabiner/karabiner.json
+    fi
+    rsync -ac "$dst/" "$src/"
+    rm -rf "$dst"
   fi
-  rsync -ac "$dst/" "$src/"
-  rm -rf "$dst"
+
+  ln -sfn "$src" "$dst"
+}
+
+if [ "$#" -eq 0 ]; then
+  set -- ghostty nvim tmux zsh starship agents karabiner
 fi
 
-ln -sfn "$src" "$dst"
-unset src dst
+for pkg in "$@"; do
+  case "$pkg" in
+    ghostty|nvim|tmux|zsh|starship|agents|karabiner) ;;
+    *) printf 'Unknown config package: %s\n' "$pkg" >&2; exit 2 ;;
+  esac
+done
+
+echo "==> Stowing configs..."
+cd "$DOTFILES"
+for pkg in "$@"; do
+  [ "$pkg" = karabiner ] && continue
+  echo "  -> $pkg"
+  case "$pkg" in
+    agents) stow_pkg "$pkg" --no-folding ;;
+    *) stow_pkg "$pkg" ;;
+  esac
+done
+
+for pkg in "$@"; do
+  case "$pkg" in
+    tmux) bash "$DOTFILES/setup-tmux.sh" ;;
+    karabiner)
+      echo "  -> karabiner (direct symlink)"
+      setup_karabiner
+      ;;
+  esac
+done

@@ -4,3 +4,6 @@
 *.log
 backups/
 .claude/
+!/agents/.claude/
+/agents/.claude/*
+!/agents/.claude/CLAUDE.md
