@@ -27,7 +27,7 @@ brew bundle --file="$DOTFILES/homebrew/.Brewfile"
 # Install nvm using its installation script, then install the current Node.js LTS.
 echo "==> Installing nvm..."
 export NVM_DIR="$HOME/.nvm"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | PROFILE=/dev/null bash
 source "$NVM_DIR/nvm.sh"
 echo "==> Installing Node.js LTS with nvm..."
 nvm install --lts
